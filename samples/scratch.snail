@@ -1,0 +1,12 @@
+hei = "hallo"
+
+print(hei)
+
+if false {
+	print("Dette skal ikke printes.")
+} else {
+	print("Heller ikke dette.")
+}
+
+-- function hei(){ print("hei er en funksjon") }
+

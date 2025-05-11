@@ -1,0 +1,15 @@
+function greet(name) {
+    print("Pleased to meet you, " ++ name ++ "!")
+}
+
+local function greet(name) {
+    name? -> local callback :
+    string:name ->
+        function() { print("Pleased to meet you, " ++ name ++ "!") },
+    int:name ->
+        function() { print("Your name is a number. Hello " ++ string:name ++ ".") },
+    _:name ->
+        function() { print("I do not know how to greet someone whose name is a " ++ name.type ++ ".") },
+    .
+    callback()
+}
