@@ -10,7 +10,7 @@ else:
 
 def serializedATN():
     return [
-        4,1,43,273,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,44,273,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,1,0,5,0,34,8,0,10,0,12,0,37,9,0,1,0,1,0,3,0,
         41,8,0,5,0,43,8,0,10,0,12,0,46,9,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -140,7 +140,7 @@ class SnailParser ( Parser ):
                       "COMP_EQ", "COMP_NEQ", "COMP_GT", "COMP_GEQ", "COMP_LT", 
                       "COMP_LEQ", "BOP_NOT", "BOP_AND", "BOP_OR", "SOP_CONCAT", 
                       "ASSIGN", "COMMA", "SEMI", "COLON", "NEWLINE", "COMMENT", 
-                      "WS" ]
+                      "BLOCK_COMMENT", "WS" ]
 
     RULE_program = 0
     RULE_stat = 1
@@ -206,7 +206,8 @@ class SnailParser ( Parser ):
     COLON=40
     NEWLINE=41
     COMMENT=42
-    WS=43
+    BLOCK_COMMENT=43
+    WS=44
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)

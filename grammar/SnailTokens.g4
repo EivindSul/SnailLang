@@ -161,6 +161,10 @@ COMMENT
 	: '--' (~[\r\n])* NEWLINE -> skip
 	;
 
+BLOCK_COMMENT
+	: '---' ( . | '\r' | '\n' )*? '---' -> skip
+	;
+
 WS
 	: [ \t]+ -> skip
 	;
