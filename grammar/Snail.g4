@@ -6,30 +6,41 @@ program
 	;
 
 stat
-	: assignment # assign
+	: LOCAL_KEYWORD? ID '=' expr # assignment
 	| FOR_KEYWORD range block # forrange
 	| FOR_KEYWORD EACH_KEYWORD each_range IN_KEYWORD atom block # foreach
 	| WHILE_KEYWORD expr block # while
-	| ifstat elifstat* elsestat? # if
+	| if elif* else? # conditional
+	| patternmatch # patmat
 	| RETURN_KEYWORD # return
 	| expr # expression
 	;
 
-ifstat
+// Excuse the messy newline spam!
+patternmatch
+	: (TYPE COLON)? expr QUESTION_MARK NEWLINE* ARROW NEWLINE* LOCAL_KEYWORD? ID NEWLINE* COLON NEWLINE*
+	  patterneval (COMMA NEWLINE* patterneval)*
+	  NEWLINE* COMMA* NEWLINE* PERIOD
+	;
+
+patterneval
+	: (pattern NEWLINE* ARROW)? NEWLINE* expr
+	;
+
+pattern
+	: ((TYPE | WILDCARD) COLON)? (expr | WILDCARD)
+	;
+
+if
 	: IF_KEYWORD expr block
 	;
 
-elifstat
-	: ELSE_KEYWORD ifstat
+elif
+	: ELSE_KEYWORD if
 	;
 
-elsestat
+else
 	: ELSE_KEYWORD block
-	;
-
-assignment
-	: ID '=' expr # globalassign
-	| LOCAL_KEYWORD ID '=' expr # localassign
 	;
 
 block

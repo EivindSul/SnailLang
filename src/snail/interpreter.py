@@ -49,8 +49,6 @@ class Interpreter(SnailVisitor):
         range_["end"] = 0
         range_["step_size"] = 1
 
-        # HACK: visit does not work, just extract the text instead.
-        # ints = [self.visit(i) for i in ctx.INT()]
         ints = [int(i.getText()) for i in ctx.INT()]
 
         match len(ints):
@@ -81,16 +79,50 @@ class Interpreter(SnailVisitor):
             interpreter = Interpreter(loop_context)
             interpreter.visit(ctx.block())
 
-    def visitIf(self, ctx: SnailParser.IfContext):
-        if self.visit(ctx.ifstat()):
-            return
-        for i in ctx.elifstat():
-            if self.visit(i.ifstat()):
-                return
-        if ctx.elsestat():
-            self.visit(ctx.elsestat().block())
+    def visitPatternmatch(self, ctx: SnailParser.PatternmatchContext):
+        condition_expr = ctx.expr()
+        condition_type = ctx.TYPE().getText() if ctx.TYPE() else None
 
-    def visitIfstat(self, ctx: SnailParser.IfstatContext):
+        result = None
+        for i in ctx.patterneval():
+            match = False
+            pat = i.pattern()
+            if pat:
+                pat_type = pat.TYPE().getText() if ctx.TYPE() else None
+                if not pat_type and not pat.expr(): # Both are wildcards
+                    match = True
+                elif pat_type == condition_type:
+                    if not pat.expr():
+                        match = True
+                    elif self.visit(pat.expr()) == self.visit(condition_expr):
+                        match = True
+            else:
+                match = True
+
+            if match:
+                result = i.expr()
+                break
+
+        if result == None:
+            return
+
+        id = ctx.ID().getText()
+        value = self.visit(result)
+        if ctx.LOCAL_KEYWORD():
+            self.sym.set_local(id, value)
+        else:
+            self.sym.assign(id, value)
+
+    def visitCondidional(self, ctx: SnailParser.ConditionalContext):
+        if self.visit(ctx.if_()):
+            return
+        for i in ctx.elif_():
+            if self.visit(i.if_()):
+                return
+        if ctx.else_():
+            self.visit(ctx.else_().block())
+
+    def visitIf(self, ctx: SnailParser.IfContext):
         if self.visit(ctx.expr()):
             self.visit(ctx.block())
             return True
@@ -104,16 +136,14 @@ class Interpreter(SnailVisitor):
     def visitExpr(self, ctx: SnailParser.ExprContext):
         return self.visitChildren(ctx)
 
-    def visitGlobalassign(self, ctx:SnailParser.GlobalassignContext):
-        id = ctx.ID().getText()
-        expr = ctx.expr()
-        self.sym.set_global(id, self.visit(expr))
-
-    def visitLocalassign(self, ctx:SnailParser.LocalassignContext):
+    def visitAssignment(self, ctx:SnailParser.AssignmentContext):
         id = ctx.ID().getText()
         expr = ctx.expr()
         value = self.visit(expr)
-        self.sym.set_local(id, value)
+        if ctx.LOCAL_KEYWORD():
+            self.sym.set_local(id, value)
+        else:
+            self.sym.assign(id, value)
 
     def visitAdd(self, ctx:SnailParser.AddContext):
         return self.visit(ctx.getChild(0)) + self.visit(ctx.getChild(2))

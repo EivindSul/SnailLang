@@ -14,8 +14,8 @@ class SnailVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#assign.
-    def visitAssign(self, ctx:SnailParser.AssignContext):
+    # Visit a parse tree produced by SnailParser#assignment.
+    def visitAssignment(self, ctx:SnailParser.AssignmentContext):
         return self.visitChildren(ctx)
 
 
@@ -34,8 +34,13 @@ class SnailVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#if.
-    def visitIf(self, ctx:SnailParser.IfContext):
+    # Visit a parse tree produced by SnailParser#conditional.
+    def visitConditional(self, ctx:SnailParser.ConditionalContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by SnailParser#patmat.
+    def visitPatmat(self, ctx:SnailParser.PatmatContext):
         return self.visitChildren(ctx)
 
 
@@ -49,28 +54,33 @@ class SnailVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#ifstat.
-    def visitIfstat(self, ctx:SnailParser.IfstatContext):
+    # Visit a parse tree produced by SnailParser#patternmatch.
+    def visitPatternmatch(self, ctx:SnailParser.PatternmatchContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#elifstat.
-    def visitElifstat(self, ctx:SnailParser.ElifstatContext):
+    # Visit a parse tree produced by SnailParser#patterneval.
+    def visitPatterneval(self, ctx:SnailParser.PatternevalContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#elsestat.
-    def visitElsestat(self, ctx:SnailParser.ElsestatContext):
+    # Visit a parse tree produced by SnailParser#pattern.
+    def visitPattern(self, ctx:SnailParser.PatternContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#globalassign.
-    def visitGlobalassign(self, ctx:SnailParser.GlobalassignContext):
+    # Visit a parse tree produced by SnailParser#if.
+    def visitIf(self, ctx:SnailParser.IfContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by SnailParser#localassign.
-    def visitLocalassign(self, ctx:SnailParser.LocalassignContext):
+    # Visit a parse tree produced by SnailParser#elif.
+    def visitElif(self, ctx:SnailParser.ElifContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by SnailParser#else.
+    def visitElse(self, ctx:SnailParser.ElseContext):
         return self.visitChildren(ctx)
 
 

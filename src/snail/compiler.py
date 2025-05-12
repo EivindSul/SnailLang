@@ -44,7 +44,7 @@ class Compiler(SnailVisitor):
         self.builder.ret(ir.Constant(INT_TYPE, 0))
         return self.module
 
-    def visitGlobalassign(self, ctx:SnailParser.GlobalassignContext):
+    def visitAssignment(self, ctx:SnailParser.AssignmentContext):
         id = ctx.ID().getText()
         expr = ctx.expr()
         value = self.visit(expr)
@@ -61,26 +61,11 @@ class Compiler(SnailVisitor):
             ptr = self.builder.alloca(expr_type, name=id)
 
         self.builder.store(value, ptr)
-        self.sym.assign(id, ptr)
 
-    def visitLocalassign(self, ctx:SnailParser.LocalassignContext):
-        id = ctx.ID().getText()
-        expr = ctx.expr()
-        value = self.visit(expr)
-        expr_type = value.type
-
-        try:
-            ptr = self.sym.get(id)
-            if expr_type == self.builder.load(ptr).type:
-                self.builder.store(value, ptr)
-            else:
-                ptr = self.builder.alloca(expr_type, name=id)
-
-        except NameError:
-            ptr = self.builder.alloca(expr_type, name=id)
-
-        self.builder.store(value, ptr)
-        self.sym.set_local(id, ptr)
+        if ctx.LOCAL_KEYWORD():
+            self.sym.set_local(id, ptr)
+        else:
+            self.sym.assign(id, ptr)
 
     def visitCall(self, ctx:SnailParser.CallContext):
 
@@ -100,27 +85,27 @@ class Compiler(SnailVisitor):
     def visitArg_list(self, ctx:SnailParser.Arg_listContext):
         return [ self.visit(i) for i in ctx.expr() ]
 
-    def visitIf(self, ctx: SnailParser.IfContext):
+    def visitConditional(self, ctx: SnailParser.ConditionalContext):
 
         func = self.builder.function
 
         cases = []
 
-        for i, stat in enumerate(ctx.elifstat()):
+        for i, stat in enumerate(ctx.elif_()):
             case = {}
             case["cond_block"] = func.append_basic_block(f"cond_{i}")
             case["then_block"] = func.append_basic_block(f"then_{i}")
-            case["expr"] = stat.ifstat().expr()
-            case["block"] = stat.ifstat().block()
+            case["expr"] = stat.if_().expr()
+            case["block"] = stat.if_().block()
             cases.append(case)
 
         if_block = func.append_basic_block("if")
         end_block = func.append_basic_block("end")
         else_block = end_block
 
-        cond = self.visit(ctx.ifstat().expr())
+        cond = self.visit(ctx.if_().expr())
 
-        if ctx.elsestat():
+        if ctx.else_():
             else_block = func.append_basic_block("else")
 
         if cases:
@@ -130,12 +115,12 @@ class Compiler(SnailVisitor):
 
         self.builder.cbranch(cond, if_block, next_block)
         self.builder.position_at_start(if_block)
-        self.visit(ctx.ifstat().block())
+        self.visit(ctx.if_().block())
         self.builder.branch(end_block)
 
-        if ctx.elsestat():
+        if ctx.else_():
             self.builder.position_at_start(else_block)
-            self.visit(ctx.elsestat().block())
+            self.visit(ctx.else_().block())
             self.builder.branch(end_block)
 
         for i, case in enumerate(cases):
@@ -251,8 +236,10 @@ class Compiler(SnailVisitor):
 
     def visitBoolliteral(self, ctx:SnailParser.BoolliteralContext):
         if ctx.getText() == "true":
-            return TRUE
-        return FALSE
+            value = TRUE
+        else:
+            value = FALSE
+        return self.builder.icmp_signed("==", TRUE, value)
 
     def visitNullliteral(self, ctx:SnailParser.NullliteralContext):
         return ir.Undefined

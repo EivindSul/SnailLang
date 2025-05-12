@@ -1,0 +1,10 @@
+greeting = "hei"
+
+greeting? -> reply :
+"hallo" -> "Hallo til deg og!" ,
+"hei" -> "Hei til deg og!" ,
+"Stillhet."
+.
+
+print(reply)
+

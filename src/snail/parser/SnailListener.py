@@ -17,12 +17,12 @@ class SnailListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SnailParser#assign.
-    def enterAssign(self, ctx:SnailParser.AssignContext):
+    # Enter a parse tree produced by SnailParser#assignment.
+    def enterAssignment(self, ctx:SnailParser.AssignmentContext):
         pass
 
-    # Exit a parse tree produced by SnailParser#assign.
-    def exitAssign(self, ctx:SnailParser.AssignContext):
+    # Exit a parse tree produced by SnailParser#assignment.
+    def exitAssignment(self, ctx:SnailParser.AssignmentContext):
         pass
 
 
@@ -53,12 +53,21 @@ class SnailListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SnailParser#if.
-    def enterIf(self, ctx:SnailParser.IfContext):
+    # Enter a parse tree produced by SnailParser#conditional.
+    def enterConditional(self, ctx:SnailParser.ConditionalContext):
         pass
 
-    # Exit a parse tree produced by SnailParser#if.
-    def exitIf(self, ctx:SnailParser.IfContext):
+    # Exit a parse tree produced by SnailParser#conditional.
+    def exitConditional(self, ctx:SnailParser.ConditionalContext):
+        pass
+
+
+    # Enter a parse tree produced by SnailParser#patmat.
+    def enterPatmat(self, ctx:SnailParser.PatmatContext):
+        pass
+
+    # Exit a parse tree produced by SnailParser#patmat.
+    def exitPatmat(self, ctx:SnailParser.PatmatContext):
         pass
 
 
@@ -80,48 +89,57 @@ class SnailListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SnailParser#ifstat.
-    def enterIfstat(self, ctx:SnailParser.IfstatContext):
+    # Enter a parse tree produced by SnailParser#patternmatch.
+    def enterPatternmatch(self, ctx:SnailParser.PatternmatchContext):
         pass
 
-    # Exit a parse tree produced by SnailParser#ifstat.
-    def exitIfstat(self, ctx:SnailParser.IfstatContext):
-        pass
-
-
-    # Enter a parse tree produced by SnailParser#elifstat.
-    def enterElifstat(self, ctx:SnailParser.ElifstatContext):
-        pass
-
-    # Exit a parse tree produced by SnailParser#elifstat.
-    def exitElifstat(self, ctx:SnailParser.ElifstatContext):
+    # Exit a parse tree produced by SnailParser#patternmatch.
+    def exitPatternmatch(self, ctx:SnailParser.PatternmatchContext):
         pass
 
 
-    # Enter a parse tree produced by SnailParser#elsestat.
-    def enterElsestat(self, ctx:SnailParser.ElsestatContext):
+    # Enter a parse tree produced by SnailParser#patterneval.
+    def enterPatterneval(self, ctx:SnailParser.PatternevalContext):
         pass
 
-    # Exit a parse tree produced by SnailParser#elsestat.
-    def exitElsestat(self, ctx:SnailParser.ElsestatContext):
-        pass
-
-
-    # Enter a parse tree produced by SnailParser#globalassign.
-    def enterGlobalassign(self, ctx:SnailParser.GlobalassignContext):
-        pass
-
-    # Exit a parse tree produced by SnailParser#globalassign.
-    def exitGlobalassign(self, ctx:SnailParser.GlobalassignContext):
+    # Exit a parse tree produced by SnailParser#patterneval.
+    def exitPatterneval(self, ctx:SnailParser.PatternevalContext):
         pass
 
 
-    # Enter a parse tree produced by SnailParser#localassign.
-    def enterLocalassign(self, ctx:SnailParser.LocalassignContext):
+    # Enter a parse tree produced by SnailParser#pattern.
+    def enterPattern(self, ctx:SnailParser.PatternContext):
         pass
 
-    # Exit a parse tree produced by SnailParser#localassign.
-    def exitLocalassign(self, ctx:SnailParser.LocalassignContext):
+    # Exit a parse tree produced by SnailParser#pattern.
+    def exitPattern(self, ctx:SnailParser.PatternContext):
+        pass
+
+
+    # Enter a parse tree produced by SnailParser#if.
+    def enterIf(self, ctx:SnailParser.IfContext):
+        pass
+
+    # Exit a parse tree produced by SnailParser#if.
+    def exitIf(self, ctx:SnailParser.IfContext):
+        pass
+
+
+    # Enter a parse tree produced by SnailParser#elif.
+    def enterElif(self, ctx:SnailParser.ElifContext):
+        pass
+
+    # Exit a parse tree produced by SnailParser#elif.
+    def exitElif(self, ctx:SnailParser.ElifContext):
+        pass
+
+
+    # Enter a parse tree produced by SnailParser#else.
+    def enterElse(self, ctx:SnailParser.ElseContext):
+        pass
+
+    # Exit a parse tree produced by SnailParser#else.
+    def exitElse(self, ctx:SnailParser.ElseContext):
         pass
 
 

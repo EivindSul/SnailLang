@@ -1,0 +1,21 @@
+greeting = "hei"
+
+-- Any curly braces declare a block with separate scope
+if true {
+	print(greeting)
+
+	-- Reassign the global
+	greeting = "hallo"
+	print(greeting)
+
+	-- Declare a local
+	local greeting = "hallais"
+	print(greeting)
+
+	-- Reassign the local
+	local greeting = "hi"
+	print(greeting)
+}
+
+print(greeting)
+

@@ -17,6 +17,7 @@ from .compiler import Compiler
 argparser = argparse.ArgumentParser(description="Snail language driver")
 argparser.add_argument("-i", "--interpret", action="store_true", dest = "interpret")
 argparser.add_argument("-c", "--compile", action="store_true", dest = "compile")
+argparser.add_argument("-d", "--debug", action="store_true", dest = "debug")
 argparser.add_argument(dest = "filename", metavar="filename")
 args = argparser.parse_args()
 
@@ -36,7 +37,8 @@ def main():
         compiler = Compiler(symbols)
         try:
             module = compiler.visit(tree)
-            print(module)
+            if args.debug:
+                print(module)
             if Path("snail.ll").exists():
                 os.remove("snail.ll")
             else:

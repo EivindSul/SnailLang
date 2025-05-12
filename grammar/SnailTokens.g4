@@ -56,31 +56,6 @@ RETURN_KEYWORD
 	: 'return'
 	;
 
-FLOAT
-	: [0-9]+ '.' [0-9]+
-	;
-
-INT
-	: [0-9]+
-	;
-
-STRING
-	: '"' (~["])* '"'
-	;
-
-BOOL
-	: 'true'
-	| 'false'
-	;
-
-NIL
-	: 'nil'
-	;
-
-ID
-	: [a-z]+
-	;
-
 OP_ADD
 	: '+'
 	;
@@ -153,16 +128,59 @@ COLON
 	: ':'
 	;
 
+WILDCARD
+	: '_'
+	;
+
+ARROW
+	: '->'
+	;
+
+QUESTION_MARK
+	: '?'
+	;
+
+PERIOD
+	: '.'
+	;
+
+TYPE
+	: 'int'
+	| 'string'
+	| 'float'
+	;
+
 NEWLINE
 	: [\n\r]+
 	;
 
-COMMENT
-	: '--' (~[\r\n])* NEWLINE -> skip
+FLOAT
+	: [0-9]+ '.' [0-9]+
 	;
 
-BLOCK_COMMENT
-	: '---' ( . | '\r' | '\n' )*? '---' -> skip
+INT
+	: [0-9]+
+	;
+
+STRING
+	: '"' (~["])* '"'
+	;
+
+BOOL
+	: 'true'
+	| 'false'
+	;
+
+NIL
+	: 'nil'
+	;
+
+ID
+	: [a-z]+
+	;
+
+COMMENT
+	: '--' (~[\r\n])* NEWLINE -> skip
 	;
 
 WS
