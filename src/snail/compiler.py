@@ -120,6 +120,9 @@ class Compiler(SnailVisitor):
 
         cond = self.visit(ctx.ifstat().expr())
 
+        if ctx.elsestat():
+            else_block = func.append_basic_block("else")
+
         if cases:
             next_block = cases[0]["cond_block"]
         else:
@@ -131,7 +134,6 @@ class Compiler(SnailVisitor):
         self.builder.branch(end_block)
 
         if ctx.elsestat():
-            else_block = func.append_basic_block("else")
             self.builder.position_at_start(else_block)
             self.visit(ctx.elsestat().block())
             self.builder.branch(end_block)
