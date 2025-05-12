@@ -1,5 +1,6 @@
 name: snail
 channels:
+  - numba
   - defaults
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
@@ -16,6 +17,8 @@ dependencies:
   - libmpdec=4.0.0
   - libstdcxx-ng=11.2.0
   - libuuid=1.41.5
+  - llvmlite=0.44.0
+  - lz4-c=1.9.4
   - ncurses=6.4
   - openssl=3.0.16
   - pip=25.0
@@ -29,6 +32,8 @@ dependencies:
   - wheel=0.45.1
   - xz=5.6.4
   - zlib=1.2.13
+  - zstd=1.5.6
   - pip:
       - antlr4-python3-runtime==4.13.2
+      - debugpy==1.8.13
 prefix: /home/eivind/Documents/skole/master/8sem/dat259/miniconda/conda/envs/snail
